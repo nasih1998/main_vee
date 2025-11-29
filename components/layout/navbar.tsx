@@ -15,6 +15,8 @@ export function Navbar() {
     const [mounted, setMounted] = useState(false);
     const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
 
+    const [mobileOpenSection, setMobileOpenSection] = useState<string | null>(null);
+
     useEffect(() => {
         setMounted(true);
         const handleScroll = () => {
@@ -34,7 +36,7 @@ export function Navbar() {
                     items: [
                         { name: "Payment Links", desc: "No-code payments", icon: LinkIcon, href: "/products/payment-links" },
                         { name: "Online Store", desc: "Prebuilt store", icon: ShoppingBag, href: "/products/online-store" },
-                        { name: "Unified Wallets", desc: "ZainCash, AsiaPay, Qi", icon: Wallet, href: "/products/wallets" },
+                        { name: "All Iraqi Wallets", desc: "ZainCash, AsiaPay, Qi", icon: Wallet, href: "/products/wallets" },
                     ]
                 },
                 {
@@ -101,6 +103,10 @@ export function Navbar() {
         }
     ];
 
+    const toggleMobileSection = (sectionName: string) => {
+        setMobileOpenSection(mobileOpenSection === sectionName ? null : sectionName);
+    };
+
     return (
         <nav
             className={cn(
@@ -128,14 +134,18 @@ export function Navbar() {
                         {navItems.map((item, index) => (
                             <div
                                 key={item.name}
-                                className="px-4 py-2 cursor-pointer"
+                                className="px-4 py-2 cursor-pointer group"
                                 onMouseEnter={() => setHoveredIndex(index)}
                             >
                                 <span className={cn(
-                                    "text-sm font-medium transition-colors",
+                                    "text-sm font-medium transition-colors flex items-center gap-1",
                                     hoveredIndex === index ? "text-[var(--text-main)]" : "text-[var(--text-muted)] hover:text-[var(--text-main)]"
                                 )}>
                                     {item.name}
+                                    <ChevronRight className={cn(
+                                        "w-3 h-3 transition-transform duration-200 rotate-90",
+                                        hoveredIndex === index && "rotate-[-90deg]"
+                                    )} />
                                 </span>
                             </div>
                         ))}
@@ -246,32 +256,79 @@ export function Navbar() {
 
             {/* Mobile Menu */}
             {isMobileMenuOpen && (
-                <div className="md:hidden absolute top-full left-0 right-0 bg-[var(--bg-page)] border-b border-[var(--border-subtle)] p-4 shadow-xl h-screen overflow-y-auto">
-                    <div className="flex flex-col gap-6">
+                <div className="md:hidden absolute top-full left-0 right-0 bg-[var(--bg-page)] border-b border-[var(--border-subtle)] p-4 shadow-xl h-[calc(100vh-80px)] overflow-y-auto">
+                    <div className="flex flex-col gap-2">
                         {navItems.map((item) => (
-                            <div key={item.name}>
-                                <h3 className="text-lg font-bold text-[var(--text-main)] mb-2">{item.name}</h3>
-                                <div className="pl-4 space-y-4">
-                                    {item.columns.map((col) => (
-                                        col.items.map((subItem) => (
-                                            <Link key={subItem.name} href={subItem.href} className="flex items-center gap-3 py-1">
-                                                <subItem.icon className="w-5 h-5 text-[var(--text-muted)]" />
-                                                <span className="text-[var(--text-main)]">{subItem.name}</span>
-                                            </Link>
-                                        ))
-                                    ))}
-                                    {item.hasSidebar && item.sidebar && (
-                                        item.sidebar.items.map((subItem) => (
-                                            <Link key={subItem.name} href={subItem.href} className="flex items-center gap-3 py-1">
-                                                <subItem.icon className="w-5 h-5 text-[var(--text-muted)]" />
-                                                <span className="text-[var(--text-main)]">{subItem.name}</span>
-                                            </Link>
-                                        ))
+                            <div key={item.name} className="border-b border-[var(--border-subtle)] last:border-0">
+                                <button
+                                    onClick={() => toggleMobileSection(item.name)}
+                                    className="w-full flex items-center justify-between py-4 text-lg font-bold text-[var(--text-main)]"
+                                >
+                                    {item.name}
+                                    <ChevronRight className={cn(
+                                        "w-5 h-5 transition-transform duration-200 rotate-90",
+                                        mobileOpenSection === item.name && "rotate-[-90deg]"
+                                    )} />
+                                </button>
+                                <AnimatePresence>
+                                    {mobileOpenSection === item.name && (
+                                        <motion.div
+                                            initial={{ height: 0, opacity: 0 }}
+                                            animate={{ height: "auto", opacity: 1 }}
+                                            exit={{ height: 0, opacity: 0 }}
+                                            transition={{ duration: 0.2 }}
+                                            className="overflow-hidden"
+                                        >
+                                            <div className="pl-4 pb-4 space-y-6">
+                                                {item.columns.map((col, idx) => (
+                                                    <div key={idx}>
+                                                        {col.title && (
+                                                            <h4 className="text-xs font-bold text-[var(--text-muted)] uppercase tracking-wider mb-3">
+                                                                {col.title}
+                                                            </h4>
+                                                        )}
+                                                        <div className="space-y-3">
+                                                            {col.items.map((subItem) => (
+                                                                <Link
+                                                                    key={subItem.name}
+                                                                    href={subItem.href}
+                                                                    className="flex items-center gap-3 py-1"
+                                                                    onClick={() => setIsMobileMenuOpen(false)}
+                                                                >
+                                                                    <subItem.icon className="w-5 h-5 text-[var(--text-muted)]" />
+                                                                    <span className="text-[var(--text-main)]">{subItem.name}</span>
+                                                                </Link>
+                                                            ))}
+                                                        </div>
+                                                    </div>
+                                                ))}
+                                                {item.hasSidebar && item.sidebar && (
+                                                    <div>
+                                                        <h4 className="text-xs font-bold text-[var(--text-muted)] uppercase tracking-wider mb-3">
+                                                            {item.sidebar.title}
+                                                        </h4>
+                                                        <div className="space-y-3">
+                                                            {item.sidebar.items.map((subItem) => (
+                                                                <Link
+                                                                    key={subItem.name}
+                                                                    href={subItem.href}
+                                                                    className="flex items-center gap-3 py-1"
+                                                                    onClick={() => setIsMobileMenuOpen(false)}
+                                                                >
+                                                                    <subItem.icon className="w-5 h-5 text-[var(--text-muted)]" />
+                                                                    <span className="text-[var(--text-main)]">{subItem.name}</span>
+                                                                </Link>
+                                                            ))}
+                                                        </div>
+                                                    </div>
+                                                )}
+                                            </div>
+                                        </motion.div>
                                     )}
-                                </div>
+                                </AnimatePresence>
                             </div>
                         ))}
-                        <div className="pt-4 border-t border-[var(--border-subtle)]">
+                        <div className="pt-6 mt-4">
                             <Button className="w-full justify-center bg-[#635bff] text-white rounded-full">
                                 Start now
                             </Button>

@@ -22,8 +22,7 @@ export default function ContactPage() {
                             </div>
                             <div>
                                 <h3 className="font-bold text-[var(--text-main)] mb-1">Email Us</h3>
-                                <p className="text-[var(--text-muted)]">support@veepay.iq</p>
-                                <p className="text-[var(--text-muted)]">sales@veepay.iq</p>
+                                <p className="text-[var(--text-muted)]">nasih@veepay.io</p>
                             </div>
                         </div>
 
@@ -34,8 +33,8 @@ export default function ContactPage() {
                             <div>
                                 <h3 className="font-bold text-[var(--text-main)] mb-1">Visit Us</h3>
                                 <p className="text-[var(--text-muted)]">
-                                    Al-Mansour District<br />
-                                    Baghdad, Iraq
+                                    Duhok, Aqrah 42004<br />
+                                    Kurdistan Region, Iraq
                                 </p>
                             </div>
                         </div>
@@ -46,7 +45,7 @@ export default function ContactPage() {
                             </div>
                             <div>
                                 <h3 className="font-bold text-[var(--text-main)] mb-1">Call Us</h3>
-                                <p className="text-[var(--text-muted)]">+964 780 000 0000</p>
+                                <p className="text-[var(--text-muted)]">07843410708</p>
                             </div>
                         </div>
                     </div>

@@ -18,7 +18,7 @@ export function Footer() {
                         <p className="text-[var(--text-muted)] text-sm leading-relaxed mb-6">
                             The smart payment gateway for modern Iraqi businesses. Unifying payments, simplifying growth.
                         </p>
-                        <div className="flex gap-4">
+                        <div className="flex gap-4 mb-6">
                             <a href="#" className="text-[var(--text-muted)] hover:text-[var(--primary)] transition-colors">
                                 <Twitter className="w-5 h-5" />
                             </a>
@@ -28,6 +28,11 @@ export function Footer() {
                             <a href="#" className="text-[var(--text-muted)] hover:text-[var(--primary)] transition-colors">
                                 <Github className="w-5 h-5" />
                             </a>
+                        </div>
+                        <div className="space-y-2 text-sm text-[var(--text-muted)]">
+                            <p>Duhok, Aqrah 42004</p>
+                            <p>nasih@veepay.io</p>
+                            <p>07843410708</p>
                         </div>
                     </div>
 

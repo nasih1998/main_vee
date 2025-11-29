@@ -6,8 +6,8 @@ import { Wallet } from "lucide-react";
 export default function WalletsPage() {
     return (
         <ProductPage
-            title="Unified Wallets"
-            description="The complete wallet solution for Iraq. Accept ZainCash, AsiaPay, and QiCard through one powerful API."
+            title="All Iraqi Wallets"
+            description="Accept payments from every major digital wallet in Iraq. Give your customers the flexibility they demand."
             icon={Wallet}
             features={[
                 "Support for ZainCash, AsiaPay, and QiCard",
